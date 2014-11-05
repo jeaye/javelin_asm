@@ -1,0 +1,24 @@
+registers: (32bit?)
+  sp
+  ip
+  r0, r1, r2, r3, r4, r5
+
+numbers: (decimal)
+  #0
+  #100
+
+addresses: (hex)
+  @ff
+  @0
+
+instructions:
+  nop
+  push <src>
+  pop
+  load <src> <dest>
+    load #100 r0
+
+video:
+  request a terminal
+    80x25 or more
+  get a pointer back with the terminal memory (and size)
