@@ -3,20 +3,41 @@ registers: (32bit?)
   ip
   r0, r1, r2, r3, r4, r5
 
+flags:
+  eq, ne, lt, gt, carry
+
 numbers: (decimal)
   #0
   #100
 
+numbers: (hex)
+  $0
+  $deadbeef
+
 addresses: (hex)
   @ff
   @0
+  dereference with *
+    store *r0 @b00b
 
-instructions:
+instructions: (reverse polish notation)
   nop
+  halt
   push <src>
   pop
-  load <src> <dest>
-    load #100 r0
+  mov <src> <dest>
+    mov #100 r0
+    mov #0 @ff
+  cmp <a> <b>
+    cmp *r0 #0
+  jmp, je, jne, jlt, jgt
+  add <amount> <dest>
+    add #100 r4
+    add #8 *r4
+  addc <amount> <dest> (amount + carry)
+  dec <amount> <dest>
+    dec #100 r4
+    dec #8 *r4
 
 video:
   request a terminal
