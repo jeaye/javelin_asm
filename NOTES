@@ -1,7 +1,7 @@
 registers: (32bit?)
   sp
   ip
-  r0, r1, r2, r3, r4, r5
+  ra, rb, rc, rd, re, rf
 
 flags:
   eq, ne, lt, gt, carry
@@ -18,26 +18,32 @@ addresses: (hex)
   @ff
   @0
   dereference with *
-    store *r0 @b00b
+    store *ra @b00b
 
-instructions: (reverse polish notation)
+instructions: (reverse polish notation?)
   nop
   halt
   push <src>
   pop
   mov <src> <dest>
-    mov #100 r0
+    mov #100 ra
     mov #0 @ff
   cmp <a> <b>
-    cmp *r0 #0
+    cmp *ra #0
   jmp, je, jne, jlt, jgt
   add <amount> <dest>
-    add #100 r4
-    add #8 *r4
-  addc <amount> <dest> (amount + carry)
+    add #100 re
+    add #8 *re
+  addc <dest> (amount + carry)
   dec <amount> <dest>
-    dec #100 r4
-    dec #8 *r4
+    dec #100 rf
+    dec #8 *rf
+  rotl <val> (sets carry, uses carry)
+    rotl #2
+    rotl *rc
+  rotr <val> (sets carry, uses carry)
+    rotr #2
+    rotr *rc
 
 video:
   request a terminal
