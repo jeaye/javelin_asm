@@ -1,9 +1,9 @@
 " Language:	Javelin Assembler
 " Maintainer:	Jeaye <contact@jeaye.com>
 
-"if exists("b:current_syntax")
-"  finish
-"endif
+if exists("b:current_syntax")
+  finish
+endif
 
 let s:cpo_save = &cpo
 set cpo&vim
@@ -12,23 +12,13 @@ let b:current_syntax = "jsm"
 
 syntax keyword jsm_todo TODO XXX FIXME NOTE
 syntax keyword jsm_keyword
-      \ nop
-      \ halt
-      \ push
-      \ pop
+      \ nop halt
+      \ push pop
       \ mov
-      \ cmp
-      \ jmp
-      \ je
-      \ jne
-      \ jlt
-      \ jgt
-      \ add
-      \ addc
-      \ inc
-      \ dec
-      \ rotl
-      \ rotr
+      \ cmp jmp je jne jlt jgt
+      \ add addc
+      \ inc dec
+      \ rotl rotr
 
 syntax match jsm_number "\v#<\d+>"
 syntax match jsm_hex "\v\$<\d+>"
@@ -49,19 +39,6 @@ highlight link jsm_register Structure
 highlight link jsm_label Identifier
 highlight link jsm_comment Comment
 highlight link jsm_deref Delimiter
-
-"highlight link swiftShebang Comment
-"highlight link swiftComment Comment
-"highlight link swiftMarker Comment
-"highlight link swiftString String
-"highlight link swiftInterpolatedWrapper Delimiter
-"highlight link swiftBoolean Boolean
-"highlight link swiftOperator Operator
-"highlight link swiftAttributes PreProc
-"highlight link swiftStructure Structure
-"highlight link swiftType Type
-"highlight link swiftImports Include
-"highlight link swiftPreprocessor PreProc
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
