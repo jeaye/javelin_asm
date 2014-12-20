@@ -1,10 +1,6 @@
 " Language:	Javelin Assembler
 " Maintainer:	Jeaye <contact@jeaye.com>
 
-if exists("b:current_syntax")
-  finish
-endif
-
 let s:cpo_save = &cpo
 set cpo&vim
 
