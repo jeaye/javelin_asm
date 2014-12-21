@@ -1,0 +1,22 @@
+nop       do nothing
+halt      stop the vm
+add       pop a, pop b, push a + b
+sub       pop a, pop b, push a - b
+and       pop a, pop b, push a & b
+or        pop a, pop b, push a | b
+xor       pop a, pop b, push a ^ b
+not       pop a, push !a
+compl     pop a, push ~a
+shl       pop a, pop b, shift a left b times
+shr       pop a, pop b, shift a right b times
+jmp       pop a, goto a
+jz        pop a, pop b, if a == 0 goto b
+jnz       pop a, pop b, if a != 0 goto b
+push      push a
+drop      pop a
+dupe      duplicate top of stack
+store     pop a, pop b, write a to address b
+swap      swap top two words on stack
+rol3      rotate top three words on stack once left, (a b c) -> (b c a)
+call      push a in IP stack
+ret       pop IP stack

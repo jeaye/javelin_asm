@@ -1,11 +1,3 @@
-registers: (32bit?)
-  sp
-  ip
-  ra, rb, rc, rd, re, rf
-
-flags:
-  eq, ne, lt, gt, carry
-
 numbers: (decimal)
   #0
   #100
@@ -14,36 +6,21 @@ numbers: (hex)
   $0
   $deadbeef
 
+numbers: (binary)
+  ~0
+  ~1001
+
 addresses: (hex)
   @ff
   @0
   dereference with *
-    store *ra @b00b
 
-instructions: (reverse polish notation?)
-  nop
-  halt
-  push <src>
-  pop
-  mov <src> <dest>
-    mov #100 ra
-    mov #0 @ff
-  cmp <a> <b>
-    cmp *ra #0
-  jmp, je, jne, jlt, jgt
-  add <amount> <dest>
-    add #100 re
-    add #8 *re
-  addc <dest> (amount + carry)
-  dec <amount> <dest>
-    dec #100 rf
-    dec #8 *rf
-  rotl <val> (sets carry, uses carry)
-    rotl #2
-    rotl *rc
-  rotr <val> (sets carry, uses carry)
-    rotr #2
-    rotr *rc
+function labels
+  foo:
+
+variable names
+  foo => #0
+  foo => nop // what's on the stack after the instruction
 
 video:
   request a terminal
