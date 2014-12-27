@@ -1,5 +1,5 @@
 nop       do nothing
-halt      stop the vm
+halt      stop the program
 add       pop a, pop b, push a + b
 sub       pop a, pop b, push a - b
 and       pop a, pop b, push a & b
@@ -13,6 +13,7 @@ jmp       pop a, goto a
 jz        pop a, pop b, if a == 0 goto b
 jnz       pop a, pop b, if a != 0 goto b
 push      push a
+ref       push stack[a] where 0 == bottom
 drop      pop a
 dupe      duplicate top of stack
 store     pop a, pop b, write a to address b
