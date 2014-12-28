@@ -18,13 +18,12 @@ int main(int const argc, char ** const argv)
 
   std::ifstream ifs{ argv[1] };
   std::vector<std::string> tokens;
-  std::copy(jtl::iterator::stream_delim<>{ ifs, ' ' },
-            jtl::iterator::stream_delim<>{},
-            std::back_inserter(tokens));
-  tokens.erase(std::remove_if(tokens.begin(), tokens.end(),
-               [](std::string const &s)
-               { return s.find_first_not_of(" \t\r\n") == std::string::npos; }),
-                tokens.end());
+  std::copy(jtl::it::stream_delim<>{ ifs, " \n" },
+            jtl::it::stream_delim<>{}, std::back_inserter(tokens));
+  tokens.erase(std::unique(tokens.begin(), tokens.end(),
+               [](auto const &lhs, auto const &rhs)
+               { return lhs.empty() && rhs.empty(); }), tokens.end());
+
   for(auto const &s : tokens)
   { std::cout << "'" << s << "'\n"; }
 }
