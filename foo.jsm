@@ -1,8 +1,8 @@
 init:
-  out => @A000
-  zero => $30
-  bits => #8 // bit count
-  num => #4 // num to show
+  @A000 | out
+  $30 | zero
+  #8 | bits // bit count
+  #7 | num // num to show
 
 each_bit:
   dupe ~10000000 and
@@ -12,6 +12,6 @@ each_bit:
   out #1 add &out store
   #1 shl // move num to next bit
   bits #1 sub &bits store
-  :each_bit jnz
+  bits :each_bit jnz
 
 halt

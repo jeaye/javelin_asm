@@ -26,7 +26,7 @@ syntax match jsm_address "\v\@<[0-9,a-f,A-F]+>"
 
 syntax match jsm_ref_delim "[\*,\&]"
 
-syntax match jsm_name_delim " =>"
+syntax match jsm_name_delim " | "
 syntax match jsm_name "\v<[a-z_][a-z0-9_]*>"
 syntax match jsm_label_delim ":"
 syntax match jsm_label "\v<[a-z_][a-z0-9_]*>:" contains=jsm_label_delim
