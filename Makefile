@@ -1,5 +1,5 @@
 CXX ?= c++
-CXX_FLAGS += -std=c++1y -Ilib/jtl/include
+CXX_FLAGS += -std=c++1y -Iinclude -Ilib/jtl/include
 
 OUT_DIR = bin
 TARGET = jsm

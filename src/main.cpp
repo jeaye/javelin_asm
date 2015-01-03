@@ -8,23 +8,10 @@
 
 #include <jtl/iterator/stream_delim.hpp>
 
-std::map<std::string, std::string> ops
-{
-  { "nop", "nop" }, { "halt", "halt" },
-  { "add", "add" }, { "sub", "sub" },
-  { "and", "and" }, { "or", "or" }, { "xor", "xor" }, { "not", "not" },
-  { "compl", "compl" },
-  { "shl", "shl" }, { "shr", "shr" },
-  { "jmp", "jmp" }, { "jz", "jz" }, { "jnz", "jnz" },
-  { "push", "push" }, { "ref", "ref" }, { "drop", "drop" },
-  { "dupe", "dupe" }, { "store", "store" }, { "load", "load" },
-  { "swap", "swap" },
-  { "rol3", "rol3" },
-  { "call", "call" }, { "ret", "ret" }
-};
+#include <jsm/op/lookup.hpp>
 
 std::map<std::string, std::string> labels;
-std::map<std::string, std::string> variables;
+std::map<std::string, std::string> contants;
 
 int main(int const argc, char ** const argv)
 {
@@ -55,32 +42,34 @@ int main(int const argc, char ** const argv)
     { continue; }
 
     /* OP code */
-    auto const op(ops.find(token));
-    if(op != ops.end())
+    auto const op(jsm::op::lookup().find(token));
+    if(op != jsm::op::lookup().end())
     {
       ofs << op->second << "\n";
       continue;
     }
     
-    /* Label declaration of reference. */
+    /* Label reference. */
     if(token[0] == ':')
     {
       auto const label(labels.find(token.substr(1)));
       if(label != labels.end())
       {
-        ofs << token << " push" << "\n";
+        ofs << jsm::op::lookup("push") << " " << token << "\n";
         continue;
       }
       else
       { throw std::runtime_error{ "unknown label: " + token }; }
     }
+    /* Label declaration. */
     else if(token.back() == ':')
     {
-      auto const label(labels.find(std::string{ token.begin(), token.end() - 1 }));
+      auto const label(labels.find(token.substr(0, token.size() - 1)));
       if(label != labels.end())
       { throw std::runtime_error{ "label already exists: " + token }; }
-      labels[std::string{ token.begin(), token.end() - 1 }] = "";
-      ofs << "nop // " + token << "\n";
+
+      labels[token.substr(0, token.size() - 1)] = "";
+      ofs << jsm::op::lookup("nop") << " // " + token << "\n";
       continue;
     }
 
@@ -88,7 +77,7 @@ int main(int const argc, char ** const argv)
     if(token[0] == '#' || token[0] == '@' ||
        token[0] == '$' || token[0] == '~')
     {
-      ofs << token << " push\n";
+      ofs << jsm::op::lookup("push") << " " << token << "\n";
       continue;
     }
 
@@ -96,30 +85,29 @@ int main(int const argc, char ** const argv)
     if(token[0] == '|')
     {
       if(i + 2 >= tokens.size())
-      { throw std::runtime_error{ "expected variable name after |" }; }
+      { throw std::runtime_error{ "expected constant name after |" }; }
       if(tokens[i + 1] != "=>")
       {
         throw std::runtime_error
         { "expected => after |; found '" + tokens[i + 1] + "'" };
       }
-      variables[tokens[i += 2]] = token.substr(1);
+      contants[tokens[i += 2]] = token.substr(1);
       continue;
     }
     /* Comment. */
     else if(token.substr(0, 2) == "//")
     {
-      for(std::size_t k{ ++i };
-          k < tokens.size() && !tokens[k].empty();
-          ++k, ++i)
+      for(std::size_t k{ ++i }; k < tokens.size() && !tokens[k].empty(); ++k, ++i)
       { }
       continue;
     }
 
     /* Constant reference. */
-    auto const var(variables.find(token));
-    if(var != variables.end())
+    auto const var(contants.find(token));
+    if(var != contants.end())
     {
-      ofs << var->second << " push" << " // " << token << "\n";
+      ofs << jsm::op::lookup("push") << " " << var->second
+          << " // " << token << "\n";
       continue;
     }
     else

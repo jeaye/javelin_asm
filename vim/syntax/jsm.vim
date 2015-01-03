@@ -11,7 +11,7 @@ syntax keyword jsm_keyword
       \ nop halt
       \ add sub
       \ and or xor
-      \ not com
+      \ not compl
       \ shl shr
       \ jmp jz jnz
       \ push ref drop dupe
