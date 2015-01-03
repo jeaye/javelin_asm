@@ -14,8 +14,17 @@ namespace jsm
       static std::map<std::string, std::string> labels;
       auto const &token(tokens[i]);
 
-      /* Label reference. */
-      if(token[0] == ':')
+      if(token.back() == ':') /* Label declaration. */
+      {
+        auto const label(labels.find(token.substr(0, token.size() - 1)));
+        if(label != labels.end())
+        { throw std::runtime_error{ "label already exists: " + token }; }
+
+        labels[token.substr(0, token.size() - 1)] = "";
+        ofs << jsm::op::lookup("nop") << " // " + token << "\n";
+        return handler::result{ true, 1, i };
+      }
+      else if(token[0] == ':') /* Label reference. */
       {
         auto const label(labels.find(token.substr(1)));
         if(label != labels.end())
@@ -25,16 +34,6 @@ namespace jsm
         }
         else
         { throw std::runtime_error{ "unknown label: " + token }; }
-      }
-      else if(token.back() == ':') /* Label declaration. */
-      {
-        auto const label(labels.find(token.substr(0, token.size() - 1)));
-        if(label != labels.end())
-        { throw std::runtime_error{ "label already exists: " + token }; }
-
-        labels[token.substr(0, token.size() - 1)] = "";
-        ofs << jsm::op::lookup("nop") << " // " + token << "\n";
-        return handler::result{ true, 1, i };
       }
 
       return handler::result{ false, 0, i };
