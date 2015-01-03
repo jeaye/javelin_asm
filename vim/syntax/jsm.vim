@@ -14,8 +14,8 @@ syntax keyword jsm_keyword
       \ not com
       \ shl shr
       \ jmp jz jnz
-      \ push drop dupe
-      \ store swap
+      \ push ref drop dupe
+      \ store load swap
       \ rol3
       \ call ret
 

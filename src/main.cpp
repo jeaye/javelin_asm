@@ -4,6 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <map>
+#include <stdexcept>
 
 #include <jtl/iterator/stream_delim.hpp>
 
@@ -16,7 +17,8 @@ std::map<std::string, std::string> ops
   { "shl", "shl" }, { "shr", "shr" },
   { "jmp", "jmp" }, { "jz", "jz" }, { "jnz", "jnz" },
   { "push", "push" }, { "ref", "ref" }, { "drop", "drop" },
-  { "dupe", "dupe" }, { "store", "store" }, { "swap", "swap" },
+  { "dupe", "dupe" }, { "store", "store" }, { "load", "load" },
+  { "swap", "swap" },
   { "rol3", "rol3" },
   { "call", "call" }, { "ret", "ret" }
 };
@@ -52,6 +54,7 @@ int main(int const argc, char ** const argv)
     if(token.empty())
     { continue; }
 
+    /* OP code */
     auto const op(ops.find(token));
     if(op != ops.end())
     {
@@ -59,6 +62,7 @@ int main(int const argc, char ** const argv)
       continue;
     }
     
+    /* Label declaration of reference. */
     if(token[0] == ':')
     {
       auto const label(labels.find(token.substr(1)));
@@ -80,6 +84,7 @@ int main(int const argc, char ** const argv)
       continue;
     }
 
+    /* Number. */
     if(token[0] == '#' || token[0] == '@' ||
        token[0] == '$' || token[0] == '~')
     {
@@ -87,14 +92,21 @@ int main(int const argc, char ** const argv)
       continue;
     }
 
-    if(token == "|")
+    /* Constant declaration. */
+    if(token[0] == '|')
     {
-      if(++i == tokens.size())
+      if(i + 2 >= tokens.size())
       { throw std::runtime_error{ "expected variable name after |" }; }
-      variables[tokens[i]] = "";
+      if(tokens[i + 1] != "=>")
+      {
+        throw std::runtime_error
+        { "expected => after |; found '" + tokens[i + 1] + "'" };
+      }
+      variables[tokens[i += 2]] = token.substr(1);
       continue;
     }
-    else if(token == "//")
+    /* Comment. */
+    else if(token.substr(0, 2) == "//")
     {
       for(std::size_t k{ ++i };
           k < tokens.size() && !tokens[k].empty();
@@ -103,12 +115,11 @@ int main(int const argc, char ** const argv)
       continue;
     }
 
-    if(token[0] == '*' || token[0] == '&')
-    { tokens[i] = token.substr(1); }
+    /* Constant reference. */
     auto const var(variables.find(token));
     if(var != variables.end())
     {
-      ofs << token << " push" << "\n";
+      ofs << var->second << " push" << " # " << token << "\n";
       continue;
     }
     else
