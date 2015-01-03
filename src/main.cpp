@@ -36,7 +36,7 @@ int main(int const argc, char ** const argv)
 
   std::cout << "assembling " << argv[1] << std::endl;
 
-  std::ofstream ofs{ std::string{argv[1]} + ".out" };
+  std::ofstream ofs{ "out." + std::string{argv[1]} };
 
   std::ifstream ifs{ argv[1] };
   std::vector<std::string> tokens;
@@ -119,7 +119,7 @@ int main(int const argc, char ** const argv)
     auto const var(variables.find(token));
     if(var != variables.end())
     {
-      ofs << var->second << " push" << " # " << token << "\n";
+      ofs << var->second << " push" << " // " << token << "\n";
       continue;
     }
     else
