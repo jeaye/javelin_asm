@@ -8,7 +8,7 @@
 
 #include <jtl/iterator/stream_delim.hpp>
 
-#include <jsm/op/lookup.hpp>
+#include <jsm/op/handler.hpp>
 
 std::map<std::string, std::string> labels;
 std::map<std::string, std::string> contants;
@@ -33,6 +33,11 @@ int main(int const argc, char ** const argv)
                [](auto const &lhs, auto const &rhs)
                { return lhs.empty() && rhs.empty(); }), tokens.end());
 
+  std::vector<jsm::handler::func> handlers
+  {
+    &jsm::op::handle
+  };
+
   std::size_t instructions{};
 
   for(std::size_t i{}; i < tokens.size(); ++i)
@@ -41,14 +46,16 @@ int main(int const argc, char ** const argv)
     if(token.empty())
     { continue; }
 
-    /* OP code */
-    auto const op(jsm::op::lookup().find(token));
-    if(op != jsm::op::lookup().end())
+    bool handled{};
+    for(auto const &f : handlers)
     {
-      ofs << op->second << "\n";
-      continue;
+      std::size_t new_instructions{};
+      std::tie(handled, new_instructions, i) = f(ofs, tokens, i);
+      instructions += new_instructions;
+      if(handled)
+      { break; }
     }
-    
+
     /* Label reference. */
     if(token[0] == ':')
     {
