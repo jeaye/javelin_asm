@@ -26,6 +26,7 @@ int main(int const argc, char ** const argv)
 
   std::ofstream ofs{ "out." + std::string{argv[1]} };
 
+  /* Tokenize. */
   std::ifstream ifs{ argv[1] };
   std::vector<std::string> tokens;
   std::copy(jtl::it::stream_delim<>{ ifs, " \n" },
@@ -34,6 +35,7 @@ int main(int const argc, char ** const argv)
                [](auto const &lhs, auto const &rhs)
                { return lhs.empty() && rhs.empty(); }), tokens.end());
 
+  /* TODO: make_array in jtl */
   std::vector<jsm::handler::func> handlers
   {
     &jsm::op::handle,
@@ -51,10 +53,10 @@ int main(int const argc, char ** const argv)
     { continue; }
 
     bool handled{};
-    for(auto const &f : handlers)
+    for(auto const &handler : handlers)
     {
       std::size_t new_instructions{};
-      std::tie(handled, new_instructions, i) = f(ofs, tokens, i);
+      std::tie(handled, new_instructions, i) = handler(ofs, tokens, i);
       instructions += new_instructions;
       if(handled)
       { break; }
@@ -63,4 +65,5 @@ int main(int const argc, char ** const argv)
     if(!handled)
     { throw std::runtime_error{ "unknown value: " + token }; }
   }
+  std::cout << "instructions: " << instructions << std::endl;
 }
