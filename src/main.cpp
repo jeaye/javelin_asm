@@ -16,6 +16,7 @@
 
 int main(int const argc, char ** const argv)
 {
+  /* TODO: cmdline parsing. */
   if(argc != 2)
   {
     std::cerr << "usage: " << argv[0] << " <file>" << std::endl;
