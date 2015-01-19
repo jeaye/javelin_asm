@@ -12,6 +12,9 @@ namespace jsm
     T constexpr to_int(code const c)
     { return static_cast<T>(c); }
 
+    inline code constexpr to_code(int const c)
+    { return static_cast<code>(c); }
+
     template <code C>
     char constexpr const* to_string();
     template <>
