@@ -6,7 +6,9 @@ namespace jsm
 {
   namespace op
   {
-    enum class code : int64_t
+    using underlying = int64_t;
+
+    enum class code : underlying
     {
       /* 0x00 */ nop,
       /* 0x01 */ halt,

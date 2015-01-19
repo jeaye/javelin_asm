@@ -9,13 +9,15 @@ namespace jsm
 {
   namespace op
   {
-    template <typename T = unsigned char>
+    template <typename T = underlying>
     T constexpr to_int(code const c)
     { return static_cast<T>(c); }
+    uint8_t constexpr to_char(code const c)
+    { return static_cast<uint8_t>(c); }
 
     inline code constexpr to_code(int const c)
     {
-      if(c < to_int<int>(code::nop) || c >= to_int<int>(code::max))
+      if(c < to_int(code::nop) || c >= to_int(code::max))
       { throw std::out_of_range{ "invalid code: " + std::to_string(c) }; }
       return static_cast<code>(c);
     }
