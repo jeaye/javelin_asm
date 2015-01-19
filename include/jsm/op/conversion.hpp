@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <stdexcept>
 
 #include "op.hpp"
 
@@ -13,7 +14,11 @@ namespace jsm
     { return static_cast<T>(c); }
 
     inline code constexpr to_code(int const c)
-    { return static_cast<code>(c); }
+    {
+      if(c < to_int<int>(code::nop) || c >= to_int<int>(code::max))
+      { throw std::out_of_range{ "invalid code: " + std::to_string(c) }; }
+      return static_cast<code>(c);
+    }
 
     template <code C>
     char constexpr const* to_string();
