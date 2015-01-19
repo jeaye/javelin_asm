@@ -3,7 +3,7 @@
 #include <string>
 #include <stdexcept>
 
-#include "op.hpp"
+#include "code.hpp"
 
 namespace jsm
 {
