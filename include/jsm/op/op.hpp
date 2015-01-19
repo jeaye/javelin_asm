@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <map>
-
 namespace jsm
 {
   namespace op
@@ -16,13 +13,9 @@ namespace jsm
       shl, shr,
       jmp, jz, jnz,
       push, ref, drop, dupe,
-      store, load, swap,
-      rol3,
+      store, load,
+      swap, rol3,
       call, ret
     };
-
-    template <typename T = unsigned char>
-    T constexpr to_int(code const c)
-    { return static_cast<T>(c); }
   }
 }

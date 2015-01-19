@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 
-#include <jsm/op/op.hpp>
+#include <jsm/op/conversion.hpp>
 
 namespace jsm
 {
@@ -20,21 +20,30 @@ namespace jsm
     {
       static std::map<std::string, std::string> ops
       {
-        { "nop", { to_int(code::nop) } }, { "halt", { to_int(code::halt) } },
-        { "add", { to_int(code::add) } }, { "sub", { to_int(code::sub) } },
-        { "and", { to_int(code::_and) } }, { "or", { to_int(code::_or) } },
-        { "xor", { to_int(code::_xor) } }, { "not", { to_int(code::_not) } },
-        { "compl", { to_int(code::_compl) } },
-        { "shl", { to_int(code::shl) } }, { "shr", { to_int(code::shr) } },
-        { "jmp", { to_int(code::jmp) } }, { "jz", { to_int(code::jz) } },
-        { "jnz", { to_int(code::jnz) } },
-        { "push", { to_int(code::push) } }, { "ref", { to_int(code::ref) } },
-        { "drop", { to_int(code::drop) } },
-        { "dupe", { to_int(code::dupe) } }, { "store", { to_int(code::store) } },
-        { "load", { to_int(code::load) } },
-        { "swap", { to_int(code::swap) } },
-        { "rol3", { to_int(code::rol3) } },
-        { "call", { to_int(code::call) } }, { "ret", { to_int(code::ret) } }
+        { to_string<code::nop>(), { to_int(code::nop) } },
+        { to_string<code::halt>(), { to_int(code::halt) } },
+        { to_string<code::add>(), { to_int(code::add) } },
+        { to_string<code::sub>(), { to_int(code::sub) } },
+        { to_string<code::_and>(), { to_int(code::_and) } },
+        { to_string<code::_or>(), { to_int(code::_or) } },
+        { to_string<code::_xor>(), { to_int(code::_xor) } },
+        { to_string<code::_not>(), { to_int(code::_not) } },
+        { to_string<code::_compl>(), { to_int(code::_compl) } },
+        { to_string<code::shl>(), { to_int(code::shl) } },
+        { to_string<code::shr>(), { to_int(code::shr) } },
+        { to_string<code::jmp>(), { to_int(code::jmp) } },
+        { to_string<code::jz>(), { to_int(code::jz) } },
+        { to_string<code::jnz>(), { to_int(code::jnz) } },
+        { to_string<code::push>(), { to_int(code::push) } },
+        { to_string<code::ref>(), { to_int(code::ref) } },
+        { to_string<code::drop>(), { to_int(code::drop) } },
+        { to_string<code::dupe>(), { to_int(code::dupe) } },
+        { to_string<code::store>(), { to_int(code::store) } },
+        { to_string<code::load>(), { to_int(code::load) } },
+        { to_string<code::swap>(), { to_int(code::swap) } },
+        { to_string<code::rol3>(), { to_int(code::rol3) } },
+        { to_string<code::call>(), { to_int(code::call) } },
+        { to_string<code::ret>(), { to_int(code::ret) } }
       };
       return ops;
     }
@@ -44,18 +53,30 @@ namespace jsm
     {
       static std::map<std::string, std::string> ops
       {
-        { "nop", "op_nop" }, { "halt", "op_halt" },
-        { "add", "op_add" }, { "sub", "op_sub" },
-        { "and", "op_and" }, { "or", "op_or" },
-        { "xor", "op_xor" }, { "not", "op_not" },
-        { "compl", "op_compl" },
-        { "shl", "op_shl" }, { "shr", "op_shr" },
-        { "jmp", "op_jmp" }, { "jz", "op_jz" }, { "jnz", "op_jnz" },
-        { "push", "op_push" }, { "ref", "op_ref" }, { "drop", "op_drop" },
-        { "dupe", "op_dupe" }, { "store", "op_store" }, { "load", "op_load" },
-        { "swap", "op_swap" },
-        { "rol3", "op_rol3" },
-        { "call", "op_call" }, { "ret", "op_ret" }
+        { to_string<code::nop>(), "op_nop" },
+        { to_string<code::halt>(), "op_halt" },
+        { to_string<code::add>(), "op_add" },
+        { to_string<code::sub>(), "op_sub" },
+        { to_string<code::_and>(), "op_and" },
+        { to_string<code::_or>(), "op_or" },
+        { to_string<code::_xor>(), "op_xor" },
+        { to_string<code::_not>(), "op_not" },
+        { to_string<code::_compl>(), "op_compl" },
+        { to_string<code::shl>(), "op_shl" },
+        { to_string<code::shr>(), "op_shr" },
+        { to_string<code::jmp>(), "op_jmp" },
+        { to_string<code::jz>(), "op_jz" },
+        { to_string<code::jnz>(), "op_jnz" },
+        { to_string<code::push>(), "op_push" },
+        { to_string<code::ref>(), "op_ref" },
+        { to_string<code::drop>(), "op_drop" },
+        { to_string<code::dupe>(), "op_dupe" },
+        { to_string<code::store>(), "op_store" },
+        { to_string<code::load>(), "op_load" },
+        { to_string<code::swap>(), "op_swap" },
+        { to_string<code::rol3>(), "op_rol3" },
+        { to_string<code::call>(), "op_call" },
+        { to_string<code::ret>(), "op_ret" }
       };
       return ops;
     }

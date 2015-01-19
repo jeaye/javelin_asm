@@ -1,4 +1,4 @@
-CXX ?= c++
+CXX = clang++
 CXX_FLAGS += -std=c++1y -Iinclude -Ilib/jtl/include
 
 OUT_DIR = bin

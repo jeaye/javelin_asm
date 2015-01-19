@@ -7,7 +7,7 @@ namespace jsm
 {
   namespace comment
   {
-    inline handler::result handle(std::ofstream &,
+    inline handler::result handle(std::ostream &,
                                   std::vector<std::string> const &tokens,
                                   std::size_t i)
     {

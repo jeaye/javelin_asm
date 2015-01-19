@@ -26,6 +26,7 @@ int main(int const argc, char ** const argv)
   std::cout << "assembling " << argv[1] << std::endl;
 
   std::ofstream ofs{ "out." + std::string{argv[1]} };
+  std::ostringstream out;
 
   /* Tokenize. */
   std::ifstream ifs{ argv[1] };
@@ -57,7 +58,7 @@ int main(int const argc, char ** const argv)
     for(auto const &handler : handlers)
     {
       std::size_t new_instructions{};
-      std::tie(handled, new_instructions, i) = handler(ofs, tokens, i);
+      std::tie(handled, new_instructions, i) = handler(out, tokens, i);
       instructions += new_instructions;
       if(handled)
       { break; }
@@ -66,5 +67,9 @@ int main(int const argc, char ** const argv)
     if(!handled)
     { throw std::runtime_error{ "unknown value: " + token }; }
   }
+  ofs << "header: jav" << std::endl;
+  ofs << "count: " << instructions << std::endl;
+  ofs << out.str();
+  ofs << "footer: jav" << std::endl;
   std::cout << "instructions: " << instructions << std::endl;
 }

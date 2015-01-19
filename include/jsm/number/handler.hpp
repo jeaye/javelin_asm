@@ -8,7 +8,7 @@ namespace jsm
 {
   namespace number
   {
-    inline handler::result handle(std::ofstream &ofs,
+    inline handler::result handle(std::ostream &ofs,
                                   std::vector<std::string> const &tokens,
                                   std::size_t const i)
     {
